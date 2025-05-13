@@ -36,15 +36,23 @@
 				Text="Message:"/>
 
 			<Editor
-				HeightRequest="200"
+				HeightRequest="100"
 				Text="{Binding Message}"/>
-
 
 			<Button
                 Text="Fetch favorites" 
                 HorizontalOptions="Fill" 
 				Command="{Binding FetchFavoritesCommand}"/>
 
+			<Button
+                Text="Save catalog" 
+                HorizontalOptions="Fill" 
+				Command="{Binding SaveCatalogCommand}"/>
+			
+			<Button
+                Text="Cancel save" 
+                HorizontalOptions="Fill" 
+	            Command="{Binding SaveCatalogCancelCommand}"/>
 		</VerticalStackLayout>
     </ScrollView>
 

@@ -13,4 +13,8 @@
     <PackageReference Include="Microsoft.Maui.Essentials" Version="9.0.60" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SpotifyPlaylistArchiver.Repository\SpotifyPlaylistArchiver.Repository.csproj" />
+  </ItemGroup>
+
 </Project>

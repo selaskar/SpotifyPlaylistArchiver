@@ -1,19 +1,19 @@
 ﻿using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Duende.IdentityModel.Client;
 using Duende.IdentityModel.OidcClient;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.Maui.Storage;
+using SpotifyPlaylistArchiver.Models;
+using SpotifyPlaylistArchiver.Repository.Abstract;
+using SpotifyPlaylistArchiver.Repository.Exceptions;
 
 namespace SpotifyPlaylistArchiver.ViewModels;
 
-public partial class MainViewModel(OidcClient client) : ObservableObject
+public partial class MainViewModel(OidcClient client, ICoreCatalogRepository coreCatalogRepository) : ObservableObject
 {
-    private string? _currentAccessToken;
-
     [ObservableProperty]
     private string? message;
 
@@ -41,7 +41,7 @@ public partial class MainViewModel(OidcClient client) : ObservableObject
             return;
         }
 
-        _currentAccessToken = result.AccessToken;
+        CurrentAccessToken = result.AccessToken;
 
         var sb = new StringBuilder(128);
 
@@ -60,16 +60,23 @@ public partial class MainViewModel(OidcClient client) : ObservableObject
         await File.WriteAllTextAsync(cacheDir, result.RefreshToken);
     }
 
-    [RelayCommand]
+    [NotifyCanExecuteChangedFor(nameof(FetchFavoritesCommand))]
+    [ObservableProperty]
+    private string? _currentAccessToken;
+
+
+    private bool CanFetchFavorites() => !string.IsNullOrEmpty(CurrentAccessToken);
+
+    [RelayCommand(CanExecute = nameof(CanFetchFavorites))]
     public async Task FetchFavorites()
     {
         Message = "API Clicked";
 
-        if (_currentAccessToken == null)
+        if (CurrentAccessToken == null)
             return;
 
         var client = new HttpClient();
-        client.SetBearerToken(_currentAccessToken);
+        client.SetBearerToken(CurrentAccessToken);
 
         var serializerOptions = new JsonSerializerOptions()
         {
@@ -120,7 +127,31 @@ public partial class MainViewModel(OidcClient client) : ObservableObject
         while (tracksResponse.Offset + tracksResponse.Limit < tracksResponse.Total);
 
         if (savedTracks != null)
-            savedTracks = savedTracks.Where(t => !t.Track.IsLocal).ToArray();
+        {
+            SavedTracks = savedTracks.Where(t => !t.Track.IsLocal).ToArray();
+            Message = $"Fetched {SavedTracks.Length} tracks.";
+        }
+    }
+
+    [NotifyCanExecuteChangedFor(nameof(SaveCatalogCommand))]
+    [ObservableProperty]
+    private SavedTrack[]? _savedTracks;
+
+    private bool CanSaveCatalog() => SavedTracks != null;
+
+    [RelayCommand(CanExecute = nameof(CanSaveCatalog), IncludeCancelCommand = true)]
+    public async Task SaveCatalog(CancellationToken cancellationToken)
+    {
+        try
+        {
+            await coreCatalogRepository.SaveCatalog(SavedTracks!, cancellationToken);
+
+            Message = "Catalog updated.";
+        }
+        catch (RepositoryException ex)
+        {
+            Message = ex.ToString();
+        }
     }
 }
 
@@ -133,40 +164,4 @@ public class TracksResponse
     public int Total { get; set; }
 
     public required SavedTrack[] Items { get; set; }
-}
-
-public class SavedTrack
-{
-    [JsonPropertyName("added_at")]
-    public DateTimeOffset AddedAt { get; set; }
-
-    public required Track Track { get; set; }
-}
-
-public class Track
-{
-    public required string Id { get; set; }
-
-    public required string Name { get; set; }
-
-    [JsonPropertyName("is_local")]
-    public required bool IsLocal { get; set; }
-
-    public required Album Album { get; set; }
-
-    public required Artist[] Artists { get; set; }
-}
-
-public class Album
-{
-    public required string Id { get; set; }
-
-    public required string Name { get; set; }
-}
-
-public class Artist
-{
-    public required string Id { get; set; }
-
-    public required string Name { get; set; }
 }

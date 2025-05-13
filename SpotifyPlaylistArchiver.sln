@@ -1,11 +1,24 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35913.81 d17.13
+VisualStudioVersion = 17.13.35913.81
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpotifyPlaylistArchiver", "SpotifyPlaylistArchiver\SpotifyPlaylistArchiver.csproj", "{490BF30C-B7BA-40EE-BCCA-A1CB55909258}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpotifyPlaylistArchiver.ViewModels", "SpotifyPlaylistArchiver.ViewModels\SpotifyPlaylistArchiver.ViewModels.csproj", "{A1799DEF-DE18-44C7-B414-46CB129730B2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitignore = .gitignore
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpotifyPlaylistArchiver.Repository", "SpotifyPlaylistArchiver.Repository\SpotifyPlaylistArchiver.Repository.csproj", "{24082EA0-2816-48E2-B521-A2970DB0C8C7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpotifyPlaylistArchiver.Models", "SpotifyPlaylistArchiver.Models\SpotifyPlaylistArchiver.Models.csproj", "{3D75D318-7FB9-401D-84D6-40D10A9DF092}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpotifyPlaylistArchiver.DbUpdater", "SpotifyPlaylistArchiver.DbUpdater\SpotifyPlaylistArchiver.DbUpdater.csproj", "{10BABBD5-53BA-434C-B904-AAE304238119}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,6 +35,18 @@ Global
 		{A1799DEF-DE18-44C7-B414-46CB129730B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A1799DEF-DE18-44C7-B414-46CB129730B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A1799DEF-DE18-44C7-B414-46CB129730B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24082EA0-2816-48E2-B521-A2970DB0C8C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24082EA0-2816-48E2-B521-A2970DB0C8C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24082EA0-2816-48E2-B521-A2970DB0C8C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24082EA0-2816-48E2-B521-A2970DB0C8C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D75D318-7FB9-401D-84D6-40D10A9DF092}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D75D318-7FB9-401D-84D6-40D10A9DF092}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D75D318-7FB9-401D-84D6-40D10A9DF092}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D75D318-7FB9-401D-84D6-40D10A9DF092}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10BABBD5-53BA-434C-B904-AAE304238119}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10BABBD5-53BA-434C-B904-AAE304238119}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10BABBD5-53BA-434C-B904-AAE304238119}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10BABBD5-53BA-434C-B904-AAE304238119}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
